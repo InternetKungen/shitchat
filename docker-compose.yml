@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mongodb:
+    build: ./mongodb
+    container_name: shitchat-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+  api:
+    build: ./api
+    container_name: shitchat-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://shitchat-mongodb:27017/shitchat
+
+  client:
+    build: ./client
+    container_name: shitchat-client
+    ports:
+      - "4000:4000"
+    depends_on:
+      - api
+
+volumes:
+  mongodb_data:

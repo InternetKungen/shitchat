@@ -8,6 +8,11 @@ import authRoutes from './src/router/authRoutes.js';
 import broadcastRoutes from './src/router/broadcastRoutes.js';
 import channelRoutes from './src/router/channelRoutes.js';
 
+import dotenv from 'dotenv';
+
+// Ladda miljövariabler från .env-filen
+dotenv.config();
+
 const app = express();
 const port = process.env.PORT || 3000;
 
