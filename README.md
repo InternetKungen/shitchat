@@ -64,6 +64,17 @@ EXTERNAL_API_URI - is the api-server
             - EXTERNAL_API_URI=http://192.168.0.25:3000
 ```
 
+### Edit Client /client/static/index.js
+
+Change this line to API SERVER
+
+```bash
+//API SERVER
+const apiUrl = "http://192.168.0.25:3000";
+```
+
+### Create .env-files
+
 #### /shitchat/api/.env
 
 ```bash
