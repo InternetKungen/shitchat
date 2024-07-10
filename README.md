@@ -22,7 +22,7 @@ cd shitchat
 
 ### Edit sources
 
-/shitchat/docker-compose.yml
+#### /shitchat/docker-compose.yml
 
 MongoDB Settings:
 
@@ -63,6 +63,44 @@ EXTERNAL_API_URI - is the api-server
             - PORT=4000
             - EXTERNAL_API_URI=http://192.168.0.25:3000
 ```
+
+#### /shitchat/api/.env
+
+```bash
+PORT=3000
+DB_USERNAME=mongodb_admin_username
+DB_PASSWORD=mongodb_admin_password
+DB_NAME=shitchat
+DB_HOST=192.168.0.25:27017
+```
+
+#### /shitchat/client/.env
+
+```bash
+PORT=4000
+EXTERNAL_API_URI=http://192.168.0.25:3000
+```
+
+### Create these files
+
+#### /shitchat/api/src/config/config.js
+
+```bash
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+  export const dbDetails = {
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME
+  };
+```
+
+#### /shitchat/api/src/config/secret.txt
+
+write a secret word or sentence used for encryption in this file
 
 ### Install with docker
 
