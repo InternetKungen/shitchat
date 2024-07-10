@@ -27,11 +27,14 @@ let chatArea = document.querySelector(".chat-area");
 //CONNECTED USERS
 const connectedUsersElem = document.querySelector(".connected-users");
 
+//API SERVER
+const apiUrl = "http://192.168.0.25:3000";
+
 //FUNKTIONER
 // Funktion för att hämta kanaler från API och visa dem i klienten
 async function fetchAndDisplayChannels() {
     try {
-        const response = await fetch("http://localhost:3000/channel");
+        const response = await fetch(`${apiUrl}/channel`);
         const channels = await response.json();
 
         const channelDropdown = document.querySelector(".channel-dropdown");
@@ -55,7 +58,7 @@ document.addEventListener("DOMContentLoaded", fetchAndDisplayChannels);
 //Visa befintliga meddelanden i kanalen
 async function displayMessages(channelId) {
     try {
-        const response = await fetch(`http://localhost:3000/channel/${channelId}`, {
+        const response = await fetch(`${apiUrl}/channel/${channelId}`, {
             headers: {
                 Authorization: "Bearer " + socket.token,
             },

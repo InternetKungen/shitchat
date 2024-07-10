@@ -1,0 +1,13 @@
+/shitchat/client/static/index.js
+Hard-coded URI
+//API SERVER
+const apiUrl = "http://192.168.0.25:3000";
+
+docker-compose.yml
+Redigera denna info - DB_HOST 
+
+i /api finns en .env som också har info om DB_HOST - som också måste ändras till samma.
+
+i /client finns en .env som innehåller API_EXTERNAL_URI - ställ in den också
+
+allt till samma host som kör docker

@@ -5,6 +5,10 @@ import { Server } from 'socket.io';
 import fetch from 'node-fetch';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import dotenv from 'dotenv';
+
+// Ladda miljövariabler från .env-filen
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,12 +41,40 @@ function sendUpdatedUserListToAll() {
   io.emit('update users', connectedUsers);
 }
 
+// // Function to fetch channels from API and send them to client
+// async function fetchChannels() {
+//     try {
+//         const response = await fetch("http://localhost:3000/channel");
+//         return await response.json();
+//     } catch (error) {
+//         console.error("Error fetching channels:", error);
+//         return [];
+//     }
+// }
+
+// // Function to fetch messages for a channel from API
+// async function fetchMessages(channelId, socket) {
+//     try {
+//         const response = await fetch(`http://localhost:3000/channel/${channelId}`, {
+//             headers: {
+//                 Authorization: "Bearer " + socket.token,
+//             },
+//         });
+//         return await response.json();
+//     } catch (error) {
+//         console.error("Error fetching messages:", error);
+//         return [];
+//     }
+// }
+
+const apiUrl = process.env.EXTERNAL_API_URI;
+
 io.on('connection', (socket) => {
 
     sendUserListToClient(socket);
 
     socket.on("register", async (username, password) => {
-        const response = await fetch('http://localhost:3000/auth/register', {
+        const response = await fetch(`${apiUrl}/auth/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -64,7 +96,7 @@ io.on('connection', (socket) => {
         sendUpdatedUserListToAll();
 
         // Authentisera användaren med API:et
-        const response = await fetch('http://localhost:3000/auth/login', {
+        const response = await fetch(`${apiUrl}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -91,7 +123,7 @@ io.on('connection', (socket) => {
 
         io.emit("send message", composedMessage); // Skicka meddelandet till alla anslutna klienter
         // Skicka meddelandet till API:et
-        await fetch('http://localhost:3000/broadcast', {
+        await fetch(`${apiUrl}/broadcast`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -109,7 +141,7 @@ io.on('connection', (socket) => {
         io.to(channelId).emit("send message", composedMessage);
 
         // Skicka meddelandet till API:et
-        await fetch(`http://localhost:3000/channel/${channelId}`, {
+        await fetch(`${apiUrl}/channel/${channelId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -128,7 +160,7 @@ io.on('connection', (socket) => {
 
           // Skicka meddelandet till API:et
           try {
-            const response = await fetch(`http://localhost:3000/channel/`, {
+            const response = await fetch(`${apiUrl}/channel/`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -163,7 +195,7 @@ io.on('connection', (socket) => {
       // Lyssna efter begäran om att listas kanaler
     socket.on("list channels", async () => {
         try {
-            const response = await fetch('http://localhost:3000/channel');
+            const response = await fetch(`${apiUrl}/channel`);
             const channels = await response.json(); // Ersätt med riktig logik för att hämta kanaler
             // Skicka listan över kanaler till klienten
             socket.emit("channel list", channels);
@@ -175,7 +207,7 @@ io.on('connection', (socket) => {
 
     socket.on("delete channel", async (indexNumber) => {
         try {
-            const response = await fetch('http://localhost:3000/channel');
+            const response = await fetch(`${apiUrl}/channel`);
             const channels = await response.json(); 
           
             let channelsListed = []; // Skapa en tom lista för att lagra index och kanal-ID
@@ -195,7 +227,7 @@ io.on('connection', (socket) => {
             }
     
             // Ta bort kanalen från databasen med det identifierade ID:et
-            const deleteResponse = await fetch(`http://localhost:3000/channel/${channelToDelete.channelId}`, {
+            const deleteResponse = await fetch(`${apiUrl}/channel/${channelToDelete.channelId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -219,7 +251,7 @@ io.on('connection', (socket) => {
 
     socket.on("join channel", async (indexNumber) => {
         try {
-            const response = await fetch('http://localhost:3000/channel');
+            const response = await fetch(`${apiUrl}/channel`);
             const channels = await response.json(); 
           
             let channelsListed = []; // Skapa en tom lista för att lagra index och kanal-ID
