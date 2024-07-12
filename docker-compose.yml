@@ -3,14 +3,14 @@ services:
   mongodb:
     build: ./mongodb
     container_name: shitchat-mongodb
-    ports:
-      - "27017:27017"
+    # ports:
+    #   - "27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=toor
     volumes:
       - mongodb_data:/data/db
-      - ./mongodb/mongod.conf:/etc/mongod.conf  # Lägg till denna rad
+      - ./mongodb/mongod.conf:/etc/mongod.conf
     command: ["mongod", "--config", "/etc/mongod.conf"]
     networks:
       - shitchat-network
@@ -18,8 +18,8 @@ services:
   api:
     build: ./api
     container_name: shitchat-api
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
     depends_on:
       - mongodb
     environment:
@@ -27,7 +27,7 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=toor
       - DB_NAME=shitchat
-      - DB_HOST=192.168.0.25:27017
+      - DB_HOST=mongodb:27017
     networks:
       - shitchat-network
 
@@ -40,7 +40,7 @@ services:
       - api
     environment:
       - PORT=4000
-      - EXTERNAL_API_URI=http://192.168.0.25:3000
+      - EXTERNAL_API_URI=http://api:3000
     networks:
       - shitchat-network
 
