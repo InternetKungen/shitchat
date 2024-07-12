@@ -1,4 +1,4 @@
-//authService.js
+// authService.js
 
 import { fetchCollection } from "../mongodb/mongoDbClient.js";
 import bcrypt from 'bcrypt';
@@ -17,7 +17,6 @@ const create = async ({username, password}) => {
   });
 }
 
-
 const exists = async ({username, password}, afterValid) => {
   let data = await fetchCollection(USER_COLLECTION_NAME).findOne({username});
 
@@ -25,13 +24,16 @@ const exists = async ({username, password}, afterValid) => {
     throw new Error("Account did not exist");
   }
 
-  bcrypt.compare(password, data.hash, (err, result) => {
-    if(result) {
+  try {
+    const match = await bcrypt.compare(password, data.hash);
+    if(match) {
       afterValid(data);
     } else {
       throw new Error("Account login error");
     }
-  })
+  } catch (error) {
+    throw new Error("Error comparing passwords");
+  }
 }
 
-export default { create, exists }
+export default { create, exists };

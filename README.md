@@ -28,8 +28,8 @@ MongoDB Settings:
 
 ```bash
     mongodb:
-        ports:
-            - "27017:27017"
+        #ports:
+        #    - "27017:27017"
         environment:
             - MONGO_INITDB_ROOT_USERNAME=mongodb_admin_username
             - MONGO_INITDB_ROOT_PASSWORD=mongodb_admin_password
@@ -41,14 +41,14 @@ DB_HOST - is the mongodb-server
 
 ```bash
     api:
-        ports:
-            - "3000:3000"
+        #ports:
+        #    - "3000:3000"
         environment:
             - PORT=3000
             - DB_USERNAME=mongodb_admin_username
             - DB_PASSWORD=mongodb_admin_password
             - DB_NAME=shitchat
-            - DB_HOST=192.168.0.25:27017
+            - DB_HOST=mongodb:27017
 ```
 
 Client settings:
@@ -61,17 +61,17 @@ EXTERNAL_API_URI - is the api-server
             - "4000:4000"
         environment:
             - PORT=4000
-            - EXTERNAL_API_URI=http://192.168.0.25:3000
+            - EXTERNAL_API_URI=http://api:3000
 ```
 
-### Edit Client /client/static/index.js
+<!-- ### Edit Client /client/static/index.js
 
 Change this line to API SERVER
 
 ```bash
 //API SERVER
 const apiUrl = "http://192.168.0.25:3000";
-```
+``` -->
 
 ### Create .env-files
 
@@ -82,14 +82,14 @@ PORT=3000
 DB_USERNAME=mongodb_admin_username
 DB_PASSWORD=mongodb_admin_password
 DB_NAME=shitchat
-DB_HOST=192.168.0.25:27017
+DB_HOST=mongodb:27017
 ```
 
 #### /shitchat/client/.env
 
 ```bash
 PORT=4000
-EXTERNAL_API_URI=http://192.168.0.25:3000
+EXTERNAL_API_URI=http://api:3000
 ```
 
 ### Create these files
