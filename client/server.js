@@ -41,32 +41,6 @@ function sendUpdatedUserListToAll() {
   io.emit('update users', connectedUsers);
 }
 
-// // Function to fetch channels from API and send them to client
-// async function fetchChannels() {
-//     try {
-//         const response = await fetch("http://localhost:3000/channel");
-//         return await response.json();
-//     } catch (error) {
-//         console.error("Error fetching channels:", error);
-//         return [];
-//     }
-// }
-
-// // Function to fetch messages for a channel from API
-// async function fetchMessages(channelId, socket) {
-//     try {
-//         const response = await fetch(`http://localhost:3000/channel/${channelId}`, {
-//             headers: {
-//                 Authorization: "Bearer " + socket.token,
-//             },
-//         });
-//         return await response.json();
-//     } catch (error) {
-//         console.error("Error fetching messages:", error);
-//         return [];
-//     }
-// }
-
 const apiUrl = process.env.EXTERNAL_API_URI;
 
 // Endpoint för att hämta kanaler
