@@ -69,6 +69,35 @@ function sendUpdatedUserListToAll() {
 
 const apiUrl = process.env.EXTERNAL_API_URI;
 
+// Endpoint för att hämta kanaler
+app.get('/api/channels', async (req, res) => {
+    try {
+        const response = await fetch(`${apiUrl}/channel`);
+        const channels = await response.json();
+        res.json(channels);
+    } catch (error) {
+        console.error("Error fetching channels:", error);
+        res.status(500).send("Error fetching channels");
+    }
+});
+
+// Endpoint för att hämta meddelanden i en kanal
+app.get('/api/channels/:channelId/messages', async (req, res) => {
+    const { channelId } = req.params;
+    try {
+        const response = await fetch(`${apiUrl}/channel/${channelId}`, {
+            headers: {
+                Authorization: "Bearer " + req.headers.authorization.split(" ")[1],
+            },
+        });
+        const messages = await response.json();
+        res.json(messages);
+    } catch (error) {
+        console.error("Error fetching messages:", error);
+        res.status(500).send("Error fetching messages");
+    }
+});
+
 io.on('connection', (socket) => {
 
     sendUserListToClient(socket);

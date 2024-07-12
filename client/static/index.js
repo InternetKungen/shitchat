@@ -27,14 +27,71 @@ let chatArea = document.querySelector(".chat-area");
 //CONNECTED USERS
 const connectedUsersElem = document.querySelector(".connected-users");
 
-//API SERVER
-const apiUrl = "http://192.168.0.25:3000";
+//--------STATIC API-------------
 
-//FUNKTIONER
+// //API SERVER
+// const apiUrl = "http://192.168.0.25:3000";
+
+// //FUNKTIONER
+// // Funktion för att hämta kanaler från API och visa dem i klienten
+// async function fetchAndDisplayChannels() {
+//     try {
+//         const response = await fetch(`${apiUrl}/channel`);
+//         const channels = await response.json();
+
+//         const channelDropdown = document.querySelector(".channel-dropdown");
+
+//         channels.forEach((channel) => {
+//             if (channel.channelName !== "broadcast") {
+//                 const option = document.createElement("option");
+//                 option.value = channel._id;
+//                 option.textContent = channel.channelName;
+//                 channelDropdown.appendChild(option);
+//             }
+//         });
+//     } catch (error) {
+//         console.error("Error fetching channels:", error);
+//     }
+// }
+
+// // Anropa funktionen för att hämta och visa kanaler när sidan laddas
+// document.addEventListener("DOMContentLoaded", fetchAndDisplayChannels);
+
+// //Visa befintliga meddelanden i kanalen
+// async function displayMessages(channelId) {
+//     try {
+//         const response = await fetch(`${apiUrl}/channel/${channelId}`, {
+//             headers: {
+//                 Authorization: "Bearer " + socket.token,
+//             },
+//         });
+
+//         const messages = await response.json();
+//         console.log(messages);
+
+//         const chatArea = document.querySelector(".chat-area");
+//         chatArea.innerHTML = "";
+
+//         messages.forEach((message) => {
+//             const messageElement = document.createElement("p");
+//             messageElement.textContent = `[${message.createdAtTime}] ${message.createdBy}: ${message.message}`;
+//             chatArea.appendChild(messageElement);
+//         });
+//     } catch (error) {
+//         console.error("Error fetching messages:", error);
+//     }
+// }
+//-------------//STATIC API----------------
+
+//---------HIDDEN API--------------
+// API SERVER
+const apiUrl = "/api";
+
+// FUNKTIONER
 // Funktion för att hämta kanaler från API och visa dem i klienten
 async function fetchAndDisplayChannels() {
     try {
-        const response = await fetch(`${apiUrl}/channel`);
+        const response = await fetch(`${apiUrl}/channels`);
         const channels = await response.json();
 
         const channelDropdown = document.querySelector(".channel-dropdown");
@@ -55,10 +112,10 @@ async function fetchAndDisplayChannels() {
 // Anropa funktionen för att hämta och visa kanaler när sidan laddas
 document.addEventListener("DOMContentLoaded", fetchAndDisplayChannels);
 
-//Visa befintliga meddelanden i kanalen
+// Visa befintliga meddelanden i kanalen
 async function displayMessages(channelId) {
     try {
-        const response = await fetch(`${apiUrl}/channel/${channelId}`, {
+        const response = await fetch(`${apiUrl}/channels/${channelId}/messages`, {
             headers: {
                 Authorization: "Bearer " + socket.token,
             },
@@ -79,6 +136,8 @@ async function displayMessages(channelId) {
         console.error("Error fetching messages:", error);
     }
 }
+
+//----------//HIDDEN API------------
 
 function showRegister() {
     console.log("showRegister function called");
