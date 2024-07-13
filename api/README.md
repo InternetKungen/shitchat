@@ -1,10 +1,12 @@
-## Chat API Version 1
+# **ShitChat** - Chat API
+
+## Based On [_Chat API Version 1_](https://github.com/InternetKungen/chat-API_v1)
 
 A simple Chat API with MongoDB integration for communication and data storage.
 
 ## Client
 
-Socket.io client for Chat API can be found [here](https://github.com/InternetKungen/chat-API-http-chat)
+The socket.io client for Chat API can be found [here](https://github.com/InternetKungen/chat-API-http-chat)
 
 ## Installation
 
@@ -13,16 +15,18 @@ Installation can be done using npm:
 ```bash
 npm install
 ```
+
 ### Database
+
 _NOTE_: You'll have to set a path to your database in mongoDbClient.js. The database should have the collections _users_ and _channels_.
 
 In src/config/ create _config.js_ with this information:
 
 ```javascript
 export const dbDetails = {
-    username: "username",
-    password: "password"
-  };
+  username: "username",
+  password: "password",
+};
 ```
 
 ## Usage
@@ -35,10 +39,7 @@ npm run dev
 
 ### Endpoints & syntax:
 
-
-
 ## Auth
-
 
 ### Login - _retrurns token_
 
@@ -92,7 +93,6 @@ npm run dev
 
 **Body:** JSON
 
-
 ```json
 {
   "message": "Broadcast message"
@@ -145,7 +145,6 @@ npm run dev
 
 **Body:** JSON
 
-
 ```json
 {
   "message": "A new message"
@@ -159,3 +158,23 @@ npm run dev
 **Metod:** DELETE
 
 **URL:** http://localhost:3000/channel/:id
+
+# Description of Chat API Using bcrypt and JWT Tokens
+
+## Encryption with bcrypt:
+
+When a user registers in the system (in authController.js), bcrypt is used to securely store the user's password. This is done by hashing the password before it is saved in the database. This ensures that the user's password remains protected even if the database is compromised.
+
+## Token Management with JWT:
+
+After a user logs in (in authController.js), a JWT token is generated containing the user's information, such as username and role. This token is then sent back to the user and used to authenticate future API requests.
+
+## Authentication with JWT:
+
+To ensure that only authorized users can perform certain actions, the JWT token is checked in jwtFilter.js. For each protected endpoint (in channelRoutes.js), the authorize middleware function is used to verify the token's validity and the user's role. If the token is valid, the user is allowed to proceed; otherwise, an error message is returned.
+
+## Summary
+
+_bcrypt_: Used to securely hash and store user passwords during registration.
+_JWT_: Used to generate tokens during login, which are then used for user authentication and authorization in API requests.
+_Middleware_: JWT tokens are verified in middleware to protect API endpoints and ensure that only authorized users have access.

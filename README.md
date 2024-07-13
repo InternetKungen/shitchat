@@ -1,10 +1,11 @@
 # ShitChat
 
-## Docker-compose - combinds [Chat_API](https://github.com/InternetKungen/chat-API_v1) + [http-chat](https://github.com/InternetKungen/chat-API-http-chat) + local mongodb
+## A docker-compose - Based on [Chat_API](https://github.com/InternetKungen/chat-API_v1) + [http-chat](https://github.com/InternetKungen/chat-API-http-chat) + local mongodb
 
 ## Info
 
-This App is made for training and is not secure. Usually the docker containers are connected through its own network, but I couldn't get it to work for me, so this version is connected with external ports, which can all be public.
+This App is made for training and is not secure. ~~Usually the docker containers are connected through its own network, but I couldn't get it to work for me, so this version is connected with external ports, which can all be public.~~
+The shitchat-client is the only container with a port exposed, and is connected to the other containers (shitchat-api and shitchat-mongodb) though a docker-network.
 
 ## Installation
 
