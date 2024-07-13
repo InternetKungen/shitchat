@@ -1,4 +1,6 @@
-# Chat Client for Chat API v1, using socket.io
+# **ShitChat** - Chat Client
+
+## Based On [_http-chat_](https://github.com/InternetKungen/chat-API-http-chat) client for Chat API v1, using socket.io
 
 This is a simple chat client designed to work with Chat API v1, utilizing socket.io for real-time communication.
 
@@ -22,7 +24,7 @@ Connect to http://localhost:4000
 
 You'll need to run and point Chat API to a MongoDB host.
 
-Chat API can be found [here](https://github.com/InternetKungen/chat-API_v1)
+Chat API v1 can be found [here](https://github.com/InternetKungen/chat-API_v1)
 
 ## Chat Commands
 
